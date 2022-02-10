@@ -44,7 +44,7 @@ ENTRYPOINT ["/sbin/init"]
 
 ```bash
 # 构建 Dockerfile,openwrt.tar.gz在同一个目录下
-docker build . -t houde/openwrt:0.0.1 
+docker build . -t houde/openwrt
 # 重新制作可以删除掉原来dangling镜像
 docker rmi $(docker images | grep "none" | awk '{print $3}')
 ```
@@ -54,5 +54,5 @@ docker rmi $(docker images | grep "none" | awk '{print $3}')
 #  https://docs.docker.com/network/macvlan/ macvlan文档
 #  添加macvlan网络, 绑定到eth0上
 docker network create -d macvlan --subnet=192.168.10.0/24 --gateway=192.168.10.1 -o parent=eth0 openwrtvlan
-docker run --restart always -d --name=OpenWRT --network macvaln --privileged=true houde/openwrt
+docker run --restart unless-stopped -d --name=OpenWRT --network openwrtvlan --privileged=true houde/openwrt
 ```
